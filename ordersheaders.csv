@@ -1,0 +1,5 @@
+OrderID,CustomerID,IsVIP,Status,SpecialRequest,TotalPrice
+1,1234567890,true,out for delivery,,660.00
+2,1234567890,true,canceled,,660.00
+3,1234567890,false,order received,,36.00
+4,1234567890,false,order received,,182.00

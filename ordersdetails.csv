@@ -1,0 +1,6 @@
+OrderID,FoodItem,Price,Quantity
+1,Burger,55.00,12
+2,Burger,55.00,12
+3,McPuff,36.00,1
+4,McPuff,36.00,2
+4,Burger,55.00,2
