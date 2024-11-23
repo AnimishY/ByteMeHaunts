@@ -51,7 +51,6 @@ public class OrderManager {
     public void generateDailySalesReport() {
         System.out.println("Total Revenue: INR " + String.format("%.2f", totalRevenue));
         System.out.println("Total Orders Processed: " + totalOrdersProcessed);
-        // Additional report details can be added here
     }
 
     public List<Order> getPendingOrders() {
@@ -239,5 +238,13 @@ public class OrderManager {
         } catch (IOException e) {
             throw new RuntimeException("Error saving orders to CSV: " + e.getMessage());
         }
+    }
+
+    public double getTotalSales() {
+        return totalOrdersProcessed;
+    }
+
+    public double getTotalRevenue() {
+        return totalRevenue;
     }
 }

@@ -16,6 +16,7 @@ public class AdminDashboard extends JFrame {
     private JButton updateOrderButton;
     private JButton viewOrderDetailsButton;
     private JComboBox orderIDSelectAgain;
+    private JButton viewSales;
     private JLabel AllOrdersText;
 
     public AdminDashboard() {
@@ -61,15 +62,15 @@ public class AdminDashboard extends JFrame {
             }
 
             // Create table model
-            String[] columnNames = {"Order ID", "Customer ID", "Total Price", "Items", "Special Request"};
+            String[] columnNames = {"Order ID", "Customer ID", "Total Price", "Items", "Special Request", "Status"};
 
             List<Object[]> rowData = new ArrayList<>();
 
-            //show headers as row1
-            rowData.add(new Object[]{"Order ID", "Customer ID", "Total Price", "Items", "Special Request"});
+            // Show headers as row1
+            rowData.add(new Object[]{"Order ID", "Customer ID", "Total Price", "Items", "Special Request", "Status"});
 
-            // add row to highlight vip orders
-            rowData.add(new Object[]{"VIP Orders", "", "", "", ""});
+            // Add row to highlight VIP orders
+            rowData.add(new Object[]{"VIP Orders", "", "", "", "", ""});
 
             // Add VIP orders to table data
             for (Order order : vipOrders) {
@@ -80,11 +81,12 @@ public class AdminDashboard extends JFrame {
                         order.getItems().entrySet().stream()
                                 .map(entry -> entry.getKey().getName() + " x" + entry.getValue())
                                 .collect(Collectors.joining(", ")),
-                        order.getSpecialRequest()
+                        order.getSpecialRequest(),
+                        order.getStatus()
                 });
             }
 
-            rowData.add(new Object[]{"Regular Orders", "", "", "", ""});
+            rowData.add(new Object[]{"Regular Orders", "", "", "", "", ""});
 
             // Add regular orders to table data
             for (Order order : regularOrders) {
@@ -95,7 +97,8 @@ public class AdminDashboard extends JFrame {
                         order.getItems().entrySet().stream()
                                 .map(entry -> entry.getKey().getName() + " x" + entry.getValue())
                                 .collect(Collectors.joining("\n")),
-                        order.getSpecialRequest()
+                        order.getSpecialRequest(),
+                        order.getStatus()
                 });
             }
 
@@ -154,6 +157,19 @@ public class AdminDashboard extends JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Order not found.");
                 }
+            }
+        });
+        viewSales.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                // display total sales in a dialog box
+                int totalOrders = (int) Main.orderManager.getTotalSales();
+                double totalRevenue = Main.orderManager.getTotalRevenue();
+
+                StringBuilder salesDetails = new StringBuilder();
+                salesDetails.append("Total Orders: ").append(totalOrders).append("\n");
+                salesDetails.append("Total Revenue: INR ").append(String.format("%.2f", totalRevenue)).append("\n");
+                JOptionPane.showMessageDialog(null, salesDetails.toString());
             }
         });
     }
