@@ -1,4 +1,7 @@
 import java.util.*;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class Order implements Comparable<Order> {
     private static int orderCounter = 1;
@@ -21,6 +24,8 @@ public class Order implements Comparable<Order> {
         this.totalPrice = 0.0;
         this.orderDate = new Date();
     }
+
+
 
     // Methods
     public void addItem(FoodItem item, int quantity) {
@@ -123,5 +128,103 @@ public class Order implements Comparable<Order> {
             map.put(item, items.get(item));
         }
         return map;
+    }
+}
+
+
+class OrderTest {
+    private Order order;
+    private FoodItem pizza;
+    private FoodItem burger;
+
+    @BeforeEach
+    void setUp() {
+        order = new Order("CUST123", true);
+        pizza = new FoodItem("Pizza", 12.99, "Main Course", true);
+        burger = new FoodItem("Burger", 8.99, "Main Course", true);
+    }
+
+    @Test
+    void testOrderConstructor() {
+        assertNotNull(order);
+        assertEquals("CUST123", order.getCustomerId());
+        assertTrue(order.isVIP());
+        assertEquals("order received", order.getStatus());
+        assertEquals(0.0, order.getTotalPrice());
+    }
+
+    @Test
+    void testAddItem() {
+        order.addItem(pizza, 2);
+        assertEquals(25.98, order.getTotalPrice(), 0.01);
+        assertTrue(order.containsItem("Pizza"));
+
+        order.addItem(burger, 1);
+        assertEquals(34.97, order.getTotalPrice(), 0.01);
+        assertTrue(order.containsItem("Burger"));
+    }
+
+
+    @Test
+    void testSetStatus() {
+        order.setStatus("preparing");
+        assertEquals("preparing", order.getStatus());
+
+        order.setStatus("delivered");
+        assertEquals("delivered", order.getStatus());
+    }
+
+    @Test
+    void testSpecialRequest() {
+        order.setSpecialRequest("Extra cheese please");
+        assertEquals("Extra cheese please", order.getSpecialRequest());
+    }
+
+    @Test
+    void testCompareToVIP() {
+        Order nonVipOrder = new Order("CUST456", false);
+        assertEquals(-1, order.compareTo(nonVipOrder)); // VIP order should come first
+        assertEquals(1, nonVipOrder.compareTo(order)); // Non-VIP order should come last
+    }
+
+
+    @Test
+    void testSetFoodItems() {
+        List<String> foodItems = Arrays.asList(
+                "Pizza,12.99,2",
+                "Burger,8.99,1"
+        );
+        order.setFoodItems(foodItems);
+
+        Map<Object, Object> items = order.getFoodItems();
+        assertEquals(2, items.size());
+
+        boolean foundPizza = false;
+        boolean foundBurger = false;
+
+        for (Map.Entry<Object, Object> entry : items.entrySet()) {
+            FoodItem item = (FoodItem) entry.getKey();
+            if (item.getName().equals("Pizza")) {
+                assertEquals(2, entry.getValue());
+                foundPizza = true;
+            }
+            if (item.getName().equals("Burger")) {
+                assertEquals(1, entry.getValue());
+                foundBurger = true;
+            }
+        }
+
+        assertTrue(foundPizza && foundBurger);
+    }
+
+    @Test
+    void testGetItems() {
+        order.addItem(pizza, 2);
+        order.addItem(burger, 1);
+
+        Map<FoodItem, Integer> items = order.getItems();
+        assertEquals(2, items.size());
+        assertEquals(Integer.valueOf(2), items.get(pizza));
+        assertEquals(Integer.valueOf(1), items.get(burger));
     }
 }

@@ -8,3 +8,4 @@ OrderID,CustomerID,IsVIP,Status,SpecialRequest,TotalPrice
 7,1234509876,true,delivered,,4.00
 8,1234567890,true,order received,,300.00
 9,1000000000,false,order received,,150.00
+10,1234567890,true,order received,,150.00

@@ -3,20 +3,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
+
 public class CustomerCart extends JFrame {
     private JLabel H1;
     private JButton exploreMenuButton;
     private JButton ManageCart;
     private JButton viewPreviousOrdersButton;
     private JPanel CustomerDashboardPanel;
-    private JComboBox MenuItemsList;
-    private JTextField QtyInput;
-    private JButton addToCartButton;
+    JComboBox MenuItemsList;
+    JTextField QtyInput;
+    JButton addToCartButton;
     private JTable table1;
     private JLabel CartTotal;
     private JComboBox CartItemList;
     private JButton removeItemFromCartButton;
-    private JButton placeOrderButton;
+    JButton placeOrderButton;
     private JButton logOutButton;
     private JButton placeOrderAsVIPButton;
 
@@ -156,3 +157,4 @@ public class CustomerCart extends JFrame {
         });
     }
 }
+
